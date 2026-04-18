@@ -7,6 +7,7 @@ import (
 
 type Config struct {
 	GRPCAddr          string
+	HTTPAddr          string
 	BadgerDir         string
 	TelegramToken     string
 	TelegramChatID    string
@@ -17,6 +18,7 @@ type Config struct {
 func Load() Config {
 	cfg := Config{
 		GRPCAddr:          envOr("GRPC_ADDR", ":9090"),
+		HTTPAddr:          envOr("HTTP_ADDR", ":9191"),
 		BadgerDir:         envOr("BADGER_DIR", "./data/badger"),
 		TelegramToken:     os.Getenv("TELEGRAM_TOKEN"),
 		TelegramChatID:    os.Getenv("TELEGRAM_CHAT_ID"),

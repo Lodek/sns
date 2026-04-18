@@ -4,11 +4,14 @@ import (
 	"context"
 	"log/slog"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
 
 	"github.com/lodek/sns/config"
@@ -60,9 +63,25 @@ func main() {
 	snsv1.RegisterAlertServiceServer(gs, srv)
 	reflection.Register(gs)
 
+	// Start gRPC gateway (HTTP proxy).
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+	if err := snsv1.RegisterAlertServiceHandlerFromEndpoint(ctx, mux, cfg.GRPCAddr, opts); err != nil {
+		slog.Error("register gateway", "error", err)
+		os.Exit(1)
+	}
+	httpSrv := &http.Server{Addr: cfg.HTTPAddr, Handler: mux}
+	go func() {
+		slog.Info("HTTP gateway listening", "addr", cfg.HTTPAddr)
+		if err := httpSrv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			slog.Error("http serve", "error", err)
+		}
+	}()
+
 	go func() {
 		<-ctx.Done()
-		slog.Info("shutting down gRPC server")
+		slog.Info("shutting down servers")
+		httpSrv.Shutdown(context.Background())
 		gs.GracefulStop()
 	}()
 

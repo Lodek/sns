@@ -3,6 +3,7 @@ package sns.v1;
 
 option go_package = "github.com/lodek/sns/gen/sns/v1;snsv1";
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
 message OneShotAlert {
@@ -53,8 +54,26 @@ message DeleteAlertRequest {
 message DeleteAlertResponse {}
 
 service AlertService {
-  rpc CreateOneShotAlert(CreateOneShotAlertRequest) returns (CreateOneShotAlertResponse);
-  rpc CreateRecurringAlert(CreateRecurringAlertRequest) returns (CreateRecurringAlertResponse);
-  rpc ListAlerts(ListAlertsRequest) returns (ListAlertsResponse);
-  rpc DeleteAlert(DeleteAlertRequest) returns (DeleteAlertResponse);
+  rpc CreateOneShotAlert(CreateOneShotAlertRequest) returns (CreateOneShotAlertResponse) {
+    option (google.api.http) = {
+      post: "/v1/alerts/oneshot"
+      body: "*"
+    };
+  }
+  rpc CreateRecurringAlert(CreateRecurringAlertRequest) returns (CreateRecurringAlertResponse) {
+    option (google.api.http) = {
+      post: "/v1/alerts/recurring"
+      body: "*"
+    };
+  }
+  rpc ListAlerts(ListAlertsRequest) returns (ListAlertsResponse) {
+    option (google.api.http) = {
+      get: "/v1/alerts"
+    };
+  }
+  rpc DeleteAlert(DeleteAlertRequest) returns (DeleteAlertResponse) {
+    option (google.api.http) = {
+      delete: "/v1/alerts/{id}"
+    };
+  }
 }

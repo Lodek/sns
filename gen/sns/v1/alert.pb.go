@@ -7,6 +7,7 @@
 package snsv1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -538,7 +539,7 @@ var File_sns_v1_alert_proto protoreflect.FileDescriptor
 
 const file_sns_v1_alert_proto_rawDesc = "" +
 	"\n" +
-	"\x12sns/v1/alert.proto\x12\x06sns.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x81\x01\n" +
+	"\x12sns/v1/alert.proto\x12\x06sns.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x81\x01\n" +
 	"\fOneShotAlert\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
@@ -567,13 +568,14 @@ const file_sns_v1_alert_proto_rawDesc = "" +
 	"\x10recurring_alerts\x18\x02 \x03(\v2\x16.sns.v1.RecurringAlertR\x0frecurringAlerts\"$\n" +
 	"\x12DeleteAlertRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x15\n" +
-	"\x13DeleteAlertResponse2\xdb\x02\n" +
-	"\fAlertService\x12[\n" +
-	"\x12CreateOneShotAlert\x12!.sns.v1.CreateOneShotAlertRequest\x1a\".sns.v1.CreateOneShotAlertResponse\x12a\n" +
-	"\x14CreateRecurringAlert\x12#.sns.v1.CreateRecurringAlertRequest\x1a$.sns.v1.CreateRecurringAlertResponse\x12C\n" +
+	"\x13DeleteAlertResponse2\xc9\x03\n" +
+	"\fAlertService\x12z\n" +
+	"\x12CreateOneShotAlert\x12!.sns.v1.CreateOneShotAlertRequest\x1a\".sns.v1.CreateOneShotAlertResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/alerts/oneshot\x12\x82\x01\n" +
+	"\x14CreateRecurringAlert\x12#.sns.v1.CreateRecurringAlertRequest\x1a$.sns.v1.CreateRecurringAlertResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/v1/alerts/recurring\x12W\n" +
 	"\n" +
-	"ListAlerts\x12\x19.sns.v1.ListAlertsRequest\x1a\x1a.sns.v1.ListAlertsResponse\x12F\n" +
-	"\vDeleteAlert\x12\x1a.sns.v1.DeleteAlertRequest\x1a\x1b.sns.v1.DeleteAlertResponseBx\n" +
+	"ListAlerts\x12\x19.sns.v1.ListAlertsRequest\x1a\x1a.sns.v1.ListAlertsResponse\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"/v1/alerts\x12_\n" +
+	"\vDeleteAlert\x12\x1a.sns.v1.DeleteAlertRequest\x1a\x1b.sns.v1.DeleteAlertResponse\"\x17\x82\xd3\xe4\x93\x02\x11*\x0f/v1/alerts/{id}Bx\n" +
 	"\n" +
 	"com.sns.v1B\n" +
 	"AlertProtoP\x01Z%github.com/lodek/sns/gen/sns/v1;snsv1\xa2\x02\x03SXX\xaa\x02\x06Sns.V1\xca\x02\x06Sns\\V1\xe2\x02\x12Sns\\V1\\GPBMetadata\xea\x02\aSns::V1b\x06proto3"

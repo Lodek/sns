@@ -1,0 +1,60 @@
+syntax = "proto3";
+package sns.v1;
+
+option go_package = "github.com/lodek/sns/gen/sns/v1;snsv1";
+
+import "google/protobuf/timestamp.proto";
+
+message OneShotAlert {
+  string id = 1;
+  string name = 2;
+  string message = 3;
+  google.protobuf.Timestamp fire_at = 4;
+}
+
+message RecurringAlert {
+  string id = 1;
+  string name = 2;
+  string message = 3;
+  string cron_expression = 4;
+}
+
+message CreateOneShotAlertRequest {
+  string name = 1;
+  string message = 2;
+  google.protobuf.Timestamp fire_at = 3;
+}
+
+message CreateOneShotAlertResponse {
+  OneShotAlert alert = 1;
+}
+
+message CreateRecurringAlertRequest {
+  string name = 1;
+  string message = 2;
+  string cron_expression = 3;
+}
+
+message CreateRecurringAlertResponse {
+  RecurringAlert alert = 1;
+}
+
+message ListAlertsRequest {}
+
+message ListAlertsResponse {
+  repeated OneShotAlert one_shot_alerts = 1;
+  repeated RecurringAlert recurring_alerts = 2;
+}
+
+message DeleteAlertRequest {
+  string id = 1;
+}
+
+message DeleteAlertResponse {}
+
+service AlertService {
+  rpc CreateOneShotAlert(CreateOneShotAlertRequest) returns (CreateOneShotAlertResponse);
+  rpc CreateRecurringAlert(CreateRecurringAlertRequest) returns (CreateRecurringAlertResponse);
+  rpc ListAlerts(ListAlertsRequest) returns (ListAlertsResponse);
+  rpc DeleteAlert(DeleteAlertRequest) returns (DeleteAlertResponse);
+}

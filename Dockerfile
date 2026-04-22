@@ -6,7 +6,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -o /snsd ./cmd/snsd
 
 FROM alpine:3.21
-RUN apk add --no-cache ca-certificates
+RUN apk add --no-cache ca-certificates tzdata
 COPY --from=build /snsd /usr/local/bin/snsd
 EXPOSE 9090
 ENTRYPOINT ["snsd"]

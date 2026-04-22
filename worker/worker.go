@@ -85,9 +85,21 @@ func (w *Worker) processRecurring(ctx context.Context, now time.Time) {
 			slog.Error("parse cron", "id", alert.Id, "expr", alert.CronExpression, "error", err)
 			continue
 		}
+
+		// Convert current time to the alert's timezone for cron evaluation.
+		localNow := now
+		if alert.Timezone != "" {
+			loc, err := time.LoadLocation(alert.Timezone)
+			if err != nil {
+				slog.Error("load timezone", "id", alert.Id, "timezone", alert.Timezone, "error", err)
+				continue
+			}
+			localNow = now.In(loc).Truncate(time.Minute)
+		}
+
 		// If the next fire time after (now - 1 minute) equals now, the cron matches.
-		nextFire := sched.Next(now.Add(-time.Minute))
-		if nextFire.Equal(now) {
+		nextFire := sched.Next(localNow.Add(-time.Minute))
+		if nextFire.Equal(localNow) {
 			msg := formatMessage("recurring", alert.Name, alert.Message)
 			w.fanOut(ctx, msg)
 		}

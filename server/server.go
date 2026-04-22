@@ -55,11 +55,20 @@ func (s *Server) CreateRecurringAlert(ctx context.Context, req *snsv1.CreateRecu
 		return nil, status.Errorf(codes.InvalidArgument, "invalid cron expression: %v", err)
 	}
 
+	tz := req.Timezone
+	if tz == "" {
+		tz = "UTC"
+	}
+	if _, err := time.LoadLocation(tz); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid timezone: %v", err)
+	}
+
 	alert := &snsv1.RecurringAlert{
 		Id:             uuid.NewString(),
 		Name:           req.Name,
 		Message:        req.Message,
 		CronExpression: req.CronExpression,
+		Timezone:       tz,
 	}
 	if err := s.store.PutRecurringAlert(ctx, alert); err != nil {
 		return nil, fmt.Errorf("store recurring alert: %w", err)

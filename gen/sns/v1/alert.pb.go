@@ -97,6 +97,7 @@ type RecurringAlert struct {
 	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Message        string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 	CronExpression string                 `protobuf:"bytes,4,opt,name=cron_expression,json=cronExpression,proto3" json:"cron_expression,omitempty"`
+	Timezone       string                 `protobuf:"bytes,5,opt,name=timezone,proto3" json:"timezone,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -155,6 +156,13 @@ func (x *RecurringAlert) GetMessage() string {
 func (x *RecurringAlert) GetCronExpression() string {
 	if x != nil {
 		return x.CronExpression
+	}
+	return ""
+}
+
+func (x *RecurringAlert) GetTimezone() string {
+	if x != nil {
+		return x.Timezone
 	}
 	return ""
 }
@@ -268,6 +276,7 @@ type CreateRecurringAlertRequest struct {
 	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Message        string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	CronExpression string                 `protobuf:"bytes,3,opt,name=cron_expression,json=cronExpression,proto3" json:"cron_expression,omitempty"`
+	Timezone       string                 `protobuf:"bytes,4,opt,name=timezone,proto3" json:"timezone,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -319,6 +328,13 @@ func (x *CreateRecurringAlertRequest) GetMessage() string {
 func (x *CreateRecurringAlertRequest) GetCronExpression() string {
 	if x != nil {
 		return x.CronExpression
+	}
+	return ""
+}
+
+func (x *CreateRecurringAlertRequest) GetTimezone() string {
+	if x != nil {
+		return x.Timezone
 	}
 	return ""
 }
@@ -544,22 +560,24 @@ const file_sns_v1_alert_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x123\n" +
-	"\afire_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x06fireAt\"w\n" +
+	"\afire_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x06fireAt\"\x93\x01\n" +
 	"\x0eRecurringAlert\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12'\n" +
-	"\x0fcron_expression\x18\x04 \x01(\tR\x0ecronExpression\"~\n" +
+	"\x0fcron_expression\x18\x04 \x01(\tR\x0ecronExpression\x12\x1a\n" +
+	"\btimezone\x18\x05 \x01(\tR\btimezone\"~\n" +
 	"\x19CreateOneShotAlertRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x123\n" +
 	"\afire_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x06fireAt\"H\n" +
 	"\x1aCreateOneShotAlertResponse\x12*\n" +
-	"\x05alert\x18\x01 \x01(\v2\x14.sns.v1.OneShotAlertR\x05alert\"t\n" +
+	"\x05alert\x18\x01 \x01(\v2\x14.sns.v1.OneShotAlertR\x05alert\"\x90\x01\n" +
 	"\x1bCreateRecurringAlertRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12'\n" +
-	"\x0fcron_expression\x18\x03 \x01(\tR\x0ecronExpression\"L\n" +
+	"\x0fcron_expression\x18\x03 \x01(\tR\x0ecronExpression\x12\x1a\n" +
+	"\btimezone\x18\x04 \x01(\tR\btimezone\"L\n" +
 	"\x1cCreateRecurringAlertResponse\x12,\n" +
 	"\x05alert\x18\x01 \x01(\v2\x16.sns.v1.RecurringAlertR\x05alert\"\x13\n" +
 	"\x11ListAlertsRequest\"\x95\x01\n" +
